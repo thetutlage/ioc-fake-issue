@@ -34,3 +34,18 @@ test.failing('encrypt data with broken service', async ({ assert }) => {
   const user = make(UserBroken)
   assert.equal(user.encryptDetails('virk'), 'virk-encrypted')
 })
+
+test('create a stripe charge for a user', async ({ assert }) => {
+  class StripeService {
+    static createCharge() {
+      return true
+    }
+  }
+
+  ioc.fake('App/Services/StripeService', () => {
+    return new StripeService()
+  });
+  const user = make(User)
+  const charge = await user.createChargeForUser()
+  assert.equal(charge.length, true)
+});
