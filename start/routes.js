@@ -15,4 +15,5 @@
 
 const Route = use('Route')
 
-Route.on('/').render('welcome')
+Route.get('/movies/:page', 'MovieController.index')
+Route.get('/movie/:id', 'MovieController.getMovieById')
